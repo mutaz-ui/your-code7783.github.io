@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البحث عن العميل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h3 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 12px;
+      width: 90%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: #74ebd5;
+      box-shadow: 0 0 5px #74ebd5;
+    }
+
+    #results {
+      margin-top: 25px;
+      text-align: right;
+      direction: rtl;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .result-item {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .result-item:hover {
+      background: #e9f7ff;
+      transform: scale(1.02);
+    }
+
+    .result-item strong {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>🔍 البحث عن اسم العميل</h3>
+    <input type="text" id="searchInput" placeholder="اكتب رقمين أو حرفين للبحث...">
+    <div id="results"></div>
+  </div>
+
+  <script>
+    const customers = [
+      { id: 2002437, name: "Health Prince Faisal Hospital/Master  عطاء مستشفى الأمير فيصل" },
+      { id: 2002438, name: "Health Reved Islamic College   عطاء كلية رفيدة" },
+      { id: 2002441, name: "Health Ruweished Hospital عطاء مستشفى الرويشد" },
+      { id: 2002444, name: "Health Osama BN Zaid  عطاء مركز أسامة أحداث" },
+      { id: 2002445, name: "Health Dar al Tarbia w Altaheel عطاء دار التربية و التأهيل" },
+      { id: 2002446, name: "Health Markez al Amal al Jadeed عطاء الأمل الجديد" }
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const resultsDiv = document.getElementById('results');
+
+    searchInput.addEventListener('keyup', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      resultsDiv.innerHTML = '';
+
+      if (query.length >= 2) {
+        const matches = customers.filter(c =>
+          c.name.toLowerCase().includes(query) || c.id.toString().includes(query)
+        );
+
+        if (matches.length > 0) {
+          matches.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `<strong>${c.name}</strong><br>🆔 ${c.id}`;
+            resultsDiv.appendChild(div);
+          });
+        } else {
+          resultsDiv.innerHTML = '<p>لا توجد نتائج مطابقة.</p>';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
