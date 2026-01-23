@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مسار 7783 | البحث عن العميل</title>
-
+  <title> مسار7783 البحث عن العميل</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
-
   <style>
     body {
       font-family: 'Cairo', sans-serif;
@@ -19,41 +17,226 @@
     }
 
     .container {
-      background: #fff;
+      background: white;
       padding: 30px;
       border-radius: 20px;
       width: 90%;
-      max-width: 650px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+      max-width: 600px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h3 {
-      margin-bottom: 10px;
       color: #333;
+      margin-bottom: 20px;
     }
 
     input {
-      width: 90%;
       padding: 12px;
+      width: 90%;
       border-radius: 10px;
       border: 1px solid #ccc;
-      font-size: 16px;
       outline: none;
+      font-size: 16px;
+      transition: all 0.3s;
     }
 
     input:focus {
       border-color: #74ebd5;
-      box-shadow: 0 0 6px #74ebd5;
+      box-shadow: 0 0 5px #74ebd5;
     }
 
     #results {
-      margin-top: 20px;
+      margin-top: 25px;
+      text-align: right;
+      direction: rtl;
       max-height: 400px;
       overflow-y: auto;
-      text-align: right;
     }
 
     .result-item {
       background: #f8f9fa;
-      padding
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .result-item:hover {
+      background: #e9f7ff;
+      transform: scale(1.02);
+    }
+
+    .result-item strong {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>🔍 البحث عن اسم العميل</h3>
+     <h3> موقع خاص معتز الرماضنه</h3>
+    <input type="text" id="searchInput" placeholder="اكتب رقمين أو حرفين للبحث...">
+    <div id="results"></div>
+  </div>
+
+  <script>
+   const customers = [
+  { id: 2002437, name: "HEALTH M-H-PRINCE FAISAL HOSPITAL / MASTER مستشفى الأمير فيصل الرئيسي - الصحة" },
+  { id: 2002438, name: "HEALTH REVED ISLAMIC COLLEGE الكلية الإسلامية المعاد تأهيلها - الصحة" },
+  { id: 2002441, name: "HEALTH RUWEISHED HOSPITAL مستشفى الرويشد - الصحة" },
+  { id: 2002444, name: "HEALTH OSAMA BN ZAID مركز اسامة بن زيد الصحي - الصحة" },
+  { id: 2002445, name: "HEALTH DAR ALTRBIA W TAHEEL ROSIFA دار التربية والتأهيل في الرصيفة - الصحة رعاية الفتيات" },
+  { id: 2002446, name: "HEALTH MRKEZ ALAMAL ALJADEED مركز الأمل الجديد - الصحة" },
+  { id: 2002451, name: "HEALTH MRKEZ ALTAHIL W ALTSHGEEL مركز التأهيل والتشغيل - الصحة" },
+  { id: 2002447, name: "HEALTH DAR ALR3IYA LEFTYAT دار الرعاية للفتيات - الصحة" },
+  { id: 2100092, name: "CATERING GREB W THOUQ مطعم ذوق وقرِب - تموين" },
+  { id: 2100095, name: "CATERING BIYT AL-BUKHARI مطعم بيت البخاري - تموين" },
+  { id: 2100117, name: "CATERING MIX GRIL مطعم مشاوي مكس جريل - تموين" },
+  { id: 2100126, name: "CATERING NADI ALDOUBAT نادي الضباط - تموين" },
+  { id: 2100139, name: "CATERING QAHWAT MAKRAM مقهى مكرم - تموين" },
+  { id: 2100171, name: "CATERING ALMUHANDIS KAFIA كافتيريا المهندس كافية - تموين" },
+  { id: 2100176, name: "CATERING FAISEL مطعم فيصل ابو اسد  - تموين" },
+  { id: 2100181, name: "CATERING ALKHAL مطعم الخال - تموين" },
+  { id: 2100182, name: "CATERING ABU ALSEEK مطعم أبو السيك - تموين" },
+  { id: 2100201, name: "CATERING QAHWAT MAJDI ABU EISAA مقهى مجدي أبو عيسى - تموين" },
+  { id: 2100213, name: "CATERING ABU LAIL COFFEE مقهى أبو ليل - تموين" },
+  { id: 2100215, name: "CATERING MATEAM BISAN مطعم بيسان - تموين" },
+  { id: 2100218, name: "CATERING QAHWAT RAKN ALQAHWA مقهى ركن القهوة مخبز شهم - تموين" },
+  { id: 2100219, name: "CATERING COFFEE ALAFINDII مقهى افندي - تموين" },
+   { id: 19000255, name: "CATERING COFFEE ALAFINDII مطبخ شيف عمر سليمان" },
+      { id: 19000137, name: "ايوان كافيه طابق3 " },
+
+  { id: 2100222, name: "CATERING - QIADAT MAJMUEAT ALMAKHABIZ ALEASKARIA كافتيريا قيادة مجموعة المخابز العسكرية - تموين" },
+  { id: 2100224, name: "CATERING BASEM REST مطعم كابولي باسم - تموين" },
+  { id: 2100225, name: "CATERING QAHWAT AHMED DAWOD مقهى أحمد داوود - تموين" },
+  { id: 2100229, name: "CATERING ABU MAHFOTH مطعم أبو محفوظ - تموين" },
+  { id: 2100230, name: "CATERING ALHAREEF مطعم الحريف - تموين" },
+  { id: 2100231, name: "CATERING JAMAL مطعم جمال - تموين" },
+  { id: 2100241, name: "CATERING ABU SAADA AL JIZAWI مطعم أبو سعادة الجيزاوي الشمالي حي رشيد - تموين" },
+  { id: 2100242, name: "CATERING ROAET ALSAREQ مطعم روعة الشرق - تموين" },
+  { id: 2100244, name: "CATERING DAKHON ALYAMEN مطعم دخون اليمن - تموين" },
+  { id: 2100245, name: "CATERING BARBECU مطعم باربكيو - تموين" },
+  { id: 2100246, name: "CATERING ALAMLA مطعم العملة - تموين" },
+  { id: 2100289, name: "CATERING SHAHER AL-JIZAWI مطعم شاهر الجيزاوي الزواهره nour - تموين" },
+  { id: 2100291, name: "CATERING ABU ISKANDAR مطعم أبوإسكندر تموين قهوة عمو يوسف" },
+  { id: 2100298, name: "CATERING NAB ALFIL مطعم نبع الفيل - تموين" },
+  { id: 2100301, name: "CATERING ALAMEER REST مطعم الأمير - تموين" },
+  { id: 2100302, name: "CATERING QAHWAT ALPRINCE مقهى الأمير - تموين" },
+  { id: 2100303, name: "CATERING MUASASAT AYMAN HAJJAYMAN HAJJ مؤسسة ايمن حجاج - تموين" },
+  { id: 2100307, name: "CATERING MAMLAKAT SABA REST مطعم مملكة سبا - تموين" },
+  { id: 2100312, name: "CATERING MOA JNAT ABU MAHMOUD مطعم معجنات ابو محمود ميرا - تموين" },
+  { id: 2100315, name: "CATERING COFFEE HOUSE كوفي هاوس - تموين" },
+
+  { id: 2100325, name: "CATERING - KUKH ALMASHAWI - ALSHAMALI 1 مطعم كوخ المشاوي – الشمالي 1 - تموين" },
+  { id: 2100328, name: "MATEAM EISHRWUN DAQIQATAN مطعم عشرون دقيقة" },
+  { id: 2100331, name: "CATERING PLANET DONUTS - ALSHAMALI بلانت دونات – الشمالي - تموين" },
+  { id: 2100333, name: "CATERING- KAFTIRYA ALKHUTAWAT ALTHAABITIH كافتيريا الخطوات الثابتة - تموين" },
+  { id: 2100337, name: "QAHWAT ALTAYRAWI مقهى الطيراوي" },
+  { id: 2100343, name: "CATERING ABU SIRIH REST مطعم ابوسريه حي الرشيد - تموين" },
+  { id: 2100350, name: "CATERING QAHWAT ABOOD مقهى عبود - تموين" },
+  { id: 2100351, name: "LIMITLESS GYM نادي ليمتلس الرياضي" },
+  { id: 2100354, name: "ESTRAHET QAISI - AZRAQ استراحة القيسي – الأزرق" },
+  { id: 2100355, name: "CATERING AWS CREAM محل آيس كريم AWS - تموين" },
+  { id: 2100356, name: "TAXFREE DEFAA MADANI ALNAQAB الدفاع المدني – النقب (الأسواق الحرة)" },
+  { id: 2100417, name: "BONJOUR - TOTAL ZARQA ST بونجور – محطة توتال الزرقاء" },
+  { id: 2100418, name: "BONJOUR - TOTAL RUSAIFA-ZARQA ST بونجور – توتال الرصيفة – شارع الزرقاء" },
+  { id: 2100423, name: "ALZARIQA ALHADITHA SCHOOLS مدارس الزرقاء الحديثة" },
+  { id: 2100434, name: "CATERING FORQAN SCHOOLS مطاعم مدارس الفرقان" },
+  { id: 2100440, name: "HEALTH TADEEL SLOOK ATFAL مركز تعديل سلوك الأطفال - الصحة" },
+  { id: 2100447, name: "TAX QIADAIT MOASKR ALQIADA معسكر القيادة (الأسواق الحرة)" },
+  { id: 2100451, name: "CATERING - CHARCOAL HOUSE مطعم تشاركول هاوس - تموين" },
+  { id: 2100456, name: "ASWAR ALQUDS RESTAURANT مطعم أسوار القدس" },
+
+  { id: 2100160, name: "CATERING MUASASAT ASALAM HUSAYN مؤسسة اسلام حسين جامعة الزرقاء - تموين" },
+  { id: 2100488, name: "JUICE HUB -ZARQA UNIVERSITY جوس هب – جامعة الزرقاء" },
+
+  { id: 2100195, name: "CATERING CAFTIRYA SHARIM 100 كافتيريا شريم 100 - تموين" },
+  { id: 2100555, name: "CATERING SHRAK W SAMAN مطعم شَرك وسَمَن - تموين" },
+  { id: 2100576, name: "TAX FREE - QIADET KATIBAT ALDAAM ALKHASA كتيبة الدعم الخاصة (الأسواق الحرة)" },
+  { id: 2100619, name: "ANWAR ALSOUB - CAFTEREIA POLYTECHNIQUE مقصف البوليتكنيك – أنوار الصعوب" },
+  { id: 2100217, name: "CATERING ISTANBULI RESTAURANT مطعم نكهة اسطنبولي الزواهره - تموين" },
+  { id: 2100622, name: "MAHMOUD TALAB KHATER RESTAURANTS مطاعم محمود طلب خاطر" },
+  { id: 2100709, name: "CATERING - COCKTAIL BERRIES مطعم كوكتيل بيري - تموين" },
+   { id: 2100249, name: "CATERING - السيران" },
+ { id: 2100102, name: "CATERING - جوستا" },
+ { id: 2100260, name: "CATERING - ظاظا" },
+ { id: 2100796, name: "CATERING - مطعم النور والتقوى" },
+   { id: 2100378, name: "CATERING -  سجن الهاشمية نزلاء اسبوعي" }, 
+       { id: 2100377, name: "CATERING -  سجن الهاشمية افراد " }, 
+      { id: 2100219, name: "CATERING - مقهى كوخ الجبل" },
+           { id: 11000069, name: "CATERING - بجدت UH لضيافة السجون" }, 
+   { id: 2100342, name: "CATERING - سرية بجانب سجن الهاشمية" }, 
+        { id: 6955, name: "CATERING -معتز الرماضنة الرقم الوظيفي" },   
+  { id: 2100763, name: "BELLA CIAO RESTAURANT & CAFE مطعم ومقهى بيلا تشاو" },
+     { "id": 19000305, "name": "مخابز بدران" },
+{ "id": 19000269, "name": "ست الحناين معجنات" },
+{ "id": 19000255, "name": "مطبخ الشيف عمر" },
+{ "id": 19000368, "name": "قهوة المملكة" },
+{ "id": 19000367, "name": "قهوة الرشيد" }
+
+
+  { id: 2100362, name: "TAX FREE - ALDAWRIAAT ALKHARIJIAT ALAIZARAQ الدوريات الخارجية – الأزرق (الأسواق الحرة)" },
+ { id: 2100367, name: "TAX FREE DEFAA MADANI GHARAB ZARQA الدفاع المدني – غرب الزرقاء (الأسواق الحرة)" }, 
+{ id: 2100369, name: "CATERING AL MOKHABARAT / HDOOD ALKRAMA-FRESH المخابرات / حدود الكرامة – فرش" }, 
+{ id: 2100371, name: "CATERING AL MOKHABARAT / AL3OMRI FRESH المخابرات العمري – فرش" }, 
+{ id: 2100373, name: "CATERING AL MOKHABARAT / RSAYFA-FRESH المخابرات الرصيفة – فرش" }, 
+{ id: 2100376, name: "AL MOKHABARAT / HDOOD ALKARAMA CHEESE المخابرات الكرامة –اجبان" }, 
+{ id: 2100380, name: "CATERING - PRISON BEREIN - AFRAD سجن بيرين – الأفراد (تموين)" }, 
+{ id: 2100381, name: "AL MOKHABARAT / AL3OMRI CHEESE المخابرات  العمري – جبن" },
+{ "id": 2100382, "name": "سجن بيرين دائم اسبوعي – النزلاء (تموين)" },
+{ "id": 2100762, "name": "دفاع مدني مشيرفه" },
+{ "id": 12100317, "name": "دفاع مدني عوجان" },
+{ "id": 12100131, "name": "مديرية شرطة لواء الرصيفة" },
+{ "id": 12100196, "name": "مركز أمن ياجوز" },
+{ "id": 19000155, "name": "دفاع مدني الرصيفة" },
+{ "id": 12100124, "name": "مركز أمن الرشيد" },
+{ "id": 12100221, "name": "مركز أمن حطين" },
+{ "id": 12100192, "name": "مركز أمن المدينة – الرصيفة الجنوبي (صوالحة)" },
+{ "id": 12100373, "name": "مخابرات الرصيفة البان" },
+{ "id": 12100385, "name": "مخابرات الرصيفة أجبان (شهري)" },
+{ "id": 12100371, "name": "مخابرات العمري (أسبوعي)" },
+{ "id": 12100495, "name": "جمرك العمري" },
+{ "id": 12100369, "name": "مخابرات الكرامة – فريش ذمم" },
+{ "id": 2100107, "name": "مخابرات الكرامة – فريش كاش" },
+{ "id": 12100358, "name": "جمرك الكرامة" },
+{ "id": 12100220, "name": "درك رويشد 25" },
+{ "id": 12100365, "name": "سرية رويشد" },
+{ "id": 1200487, "name": "الأمن العام العمري" },
+
+];
+
+    const searchInput = document.getElementById('searchInput');
+    const resultsDiv = document.getElementById('results');
+
+    searchInput.addEventListener('keyup', () => {
+      const query = searchInput.value.trim().toLowerCase();
+      resultsDiv.innerHTML = '';
+
+      if (query.length >= 2) {
+        const matches = customers.filter(c =>
+          c.name.toLowerCase().includes(query) || c.id.toString().includes(query)
+        );
+
+        if (matches.length > 0) {
+          matches.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `<strong>${c.name}</strong><br>🆔 ${c.id}`;
+            resultsDiv.appendChild(div);
+          });
+        } else {
+          resultsDiv.innerHTML = '<p>لا توجد نتائج مطابقة.</p>';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
